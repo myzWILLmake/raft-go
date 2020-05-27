@@ -141,7 +141,7 @@ func (rf *Raft) campaign() {
 
 	rf.mu.Lock()
 	if rf.state == Candidate {
-		fmt.Printf("NODE %d becomes a new leader\n", rf.me)
+		fmt.Printf("Raft Node %d becomes a new leader.\n", rf.me)
 		rf.state = Leader
 		rf.initIndex()
 		go rf.heartbeat()
@@ -262,7 +262,6 @@ func (rf *Raft) apply() {
 			rf.mu.Unlock()
 			for _, entry := range entries {
 				rf.clientCh <- ClientMsg{cmdValid, entry.LogIndex, entry.LogTerm, entry.Command}
-
 			}
 		}
 	}
@@ -310,6 +309,7 @@ func MakeRaft(peers []peerWrapper, me int, clientCh chan ClientMsg) *Raft {
 		for {
 			select {
 			case <-rf.electionTimer.C:
+				fmt.Printf("Leader is timeout. Try to campaign...\n")
 				rf.campaign()
 			}
 		}
