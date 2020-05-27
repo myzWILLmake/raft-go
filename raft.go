@@ -281,6 +281,11 @@ func (rf *Raft) getServerInfo() map[string]interface{} {
 	info["lastApplied"] = rf.lastApplied
 	info["logIndex"] = rf.logIndex
 	info["state"] = rf.state
+	if rf.logIndex > 6 {
+		info["logs"] = rf.logs[len(rf.logs)-5:]
+	} else {
+		info["logs"] = rf.logs[1:rf.logIndex]
+	}
 	return info
 }
 

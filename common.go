@@ -65,3 +65,16 @@ type ClientMsg struct {
 	CmdTerm  int
 	Cmd      interface{}
 }
+
+func getStateStr(state raftState) string {
+	var rfStateStr string
+	switch state {
+	case Leader:
+		rfStateStr = "Leader"
+	case Follower:
+		rfStateStr = "Follower"
+	case Candidate:
+		rfStateStr = "Candidate"
+	}
+	return rfStateStr
+}
